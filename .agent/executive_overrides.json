@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "approved_by": "furre",
+  "overrides": [
+    {
+      "override_id": "exec-override-claude-skills-trivy-docs-sample-ssh-key-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "trivy",
+      "rule_id": "trivy/secrets/private-key",
+      "file": "/mnt/f/.repo-quarantine/claude-skills__20260222T125450Z/skills/kubernetes-specialist/references/configuration.md",
+      "line": 151,
+      "reason": "Documentation example of Kubernetes SSH secret manifest with placeholder private key block in fenced code sample; not an operational secret in runtime config.",
+      "approved_by": "furre",
+      "evidence": "Example YAML under 'SSH Auth Secret' in reference markdown includes placeholder OPENSSH private key text for instructional purposes."
+    },
+    {
+      "override_id": "exec-override-claude-skills-giskard-test-cleanup-rmrf-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "giskard",
+      "rule_id": "unsafe_shell_delete",
+      "file": "/mnt/f/.repo-quarantine/claude-skills__20260222T125450Z/scripts/test-makefile.sh",
+      "line": 18,
+      "reason": "Test harness cleanup of mktemp-created directories tracked in CLEANUP_DIRS; bounded local test cleanup, not user-path deletion.",
+      "approved_by": "furre",
+      "evidence": "cleanup() iterates over temp dirs created by mktemp and registered in CLEANUP_DIRS before trap cleanup EXIT."
+    },
+    {
+      "override_id": "exec-override-claude-skills-codeql-astro-generated-pathliteral-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "codeql",
+      "rule_id": "codeql/path-traversal-risk",
+      "file": "/mnt/f/.repo-quarantine/claude-skills__20260222T125450Z/.astro/content.d.ts",
+      "line": 197,
+      "reason": "Generated Astro type file contains static relative source reference string; no user-controlled path handling or filesystem traversal sink.",
+      "approved_by": "furre",
+      "evidence": "Flagged text is a generated type declaration reference to ../src/content.config.mjs."
+    },
+    {
+      "override_id": "exec-override-claude-skills-codeql-sync-content-linkmap-pathliteral-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "codeql",
+      "rule_id": "codeql/path-traversal-risk",
+      "file": "/mnt/f/.repo-quarantine/claude-skills__20260222T125450Z/site/scripts/sync-content.mjs",
+      "line": 94,
+      "reason": "Static link rewrite mapping for documentation site generation; path literal is a known source-doc path key, not traversal input.",
+      "approved_by": "furre",
+      "evidence": "linkMap.set('../commands/common-ground/COMMAND.md', ...) in build-time docs sync script."
+    },
+    {
+      "override_id": "exec-override-claude-skills-codeql-yaml-frontmatter-load-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "codeql",
+      "rule_id": "codeql/unsafe-deserialization",
+      "file": "/mnt/f/.repo-quarantine/claude-skills__20260222T125450Z/site/scripts/sync-content.mjs",
+      "line": 126,
+      "reason": "Build-time repository docs sync script parses local markdown frontmatter from the same repo for static-site generation; trusted source within intake context and not runtime user input.",
+      "approved_by": "furre",
+      "evidence": "parseFrontmatter() uses yaml.load(frontmatter) while syncing repo-local documentation into site content during pre-build."
+    }
+  ]
+}
